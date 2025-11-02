@@ -4,20 +4,22 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Website</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-
 <body> 
   <h1>Hi!!!</h1>
   <h2>This is Harold's website. It's very simple, but it's okay :)</h2>
 
-  <!-- Button (you can add text or a function later) -->
-  <button div="button1">Button</button>
+  <!-- Button -->
+  <button id="button1">Button</button>
 
   <!-- Image -->
   <br>
-  <img src="https://drive.google.com/file/d/1tAMna6nucIssQksyjaX1L_uOaYF8Gphh/view?usp=sharing" alt="Harold's face" width="300">
+  <img src="https://drive.google.com/uc?export=view&id=1tAMna6nucIssQksyjaX1L_uOaYF8Gphh" alt="Harold's face" width="300">
   <br>
 
   <p>So that is my face.</p>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
