@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (textElem) textElem.textContent = "You clicked the second button!!";
 
       const imgElem = document.getElementById("changeimagebutton2");
-      if (imgElem) imgElem.src = "https://i.natgeofe.com/n/548467d8-c5f1-4551-9f58-6817a8d2c45e/NationalGeographic_2572187_16x9.jpg?w=1200s"; // replace with your new image path
+      if (imgElem) imgElem.src = "https://i.natgeofe.com/n/548467d8-c5f1-4551-9f58-6817a8d2c45e/NationalGeographic_2572187_16x9.jpg?w=1200"; // replace with your new image path
     });
   }
 });
