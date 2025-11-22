@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (button1) {
     button1.addEventListener("click", () => {
       const textElem = document.getElementById("changingtext1");
-      if (textElem) textElem.textContent = "You clicked the button!!";
+      if (textElem) textElem.textContent = "You clicked the first button!!";
     });
   }
 
