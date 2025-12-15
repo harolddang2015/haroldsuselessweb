@@ -1,28 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<link rel="icon" type="image/x-icon" href="https://ibb.co/hFJcNPjm">
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Website</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta charset="UTF-8">
+    <title>Group Communication</title>
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .user-box {
+            margin-bottom: 10px;
+        }
+        input {
+            width: 70%;
+            padding: 6px;
+        }
+        button {
+            padding: 6px 10px;
+        }
+        #log {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            height: 250px;
+            overflow-y: auto;
+        }
+    </style>
 </head>
-<body> 
-  <h1>Hi!!!</h1>
-  <h2>This is Harold's website. It's very simple, but it's okay :)</h2>
+<body>
 
-  <!-- Button -->
-  <button id="button1">Button</button>
-  <button id="button2">Button2</button>
+<h2>9-User Communication Page</h2>
 
-  <!-- Image -->
-  <br>
-  <img id="changeimagebutton2" src="https://cdn.britannica.com/16/234216-050-C66F8665/beagle-hound-dog.jpg" alt="Harold's face" width="500">
-  <br>
+<div id="inputs">
+    <!-- 9 text boxes -->
+    <script>
+        for (let i = 1; i <= 9; i++) {
+            document.write(`
+                <div class="user-box">
+                    <strong>User ${i}:</strong>
+                    <input type="text" id="msg${i}" placeholder="Type message">
+                    <button onclick="sendMessage(${i})">Send</button>
+                </div>
+            `);
+        }
+    </script>
+</div>
 
-  <p id="buh"></p>
-  <h1 id="changingtext1"></h1>
+<div id="log"></div>
 
-  <script src="{{ url_for('static', filename='script.js') }}"></script>
+<script>
+    const socket = io();
+
+    function sendMessage(userId) {
+        const input = document.getElementById(`msg${userId}`);
+        if (input.value.trim() !== "") {
+            socket.emit("message", {
+                user: `User ${userId}`,
+                text: input.value
+            });
+            input.value = "";
+        }
+    }
+
+    socket.on("broadcast", data => {
+        const log = document.getElementById("log");
+        log.innerHTML += `<div><strong>${data.user}:</strong> ${data.text}</div>`;
+        log.scrollTop = log.scrollHeight;
+    });
+</script>
+
 </body>
 </html>
