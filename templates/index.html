@@ -26,6 +26,14 @@
 
 <script>
     const socket = io();
+    const inputs = {};
+
+    function sendUpdate(id) {
+        socket.emit("update_sign", {
+            id: id,
+            value: inputs[id].value
+        });
+    }
 
     for (let i = 1; i <= 9; i++) {
         const div = document.createElement("div");
@@ -39,23 +47,39 @@
         document.getElementById("signs").appendChild(div);
 
         const input = div.querySelector("input");
+        inputs[i] = input;
 
-        // UPDATE ONLY WHEN USER LEAVES THE BOX
-        input.addEventListener("blur", () => {
-            socket.emit("update_sign", {
-                id: i,
-                value: input.value
-            });
+        // 1. Every keystroke
+        input.addEventListener("input", () => sendUpdate(i));
+
+        // 2. Click away / tab out
+        input.addEventListener("blur", () => sendUpdate(i));
+
+        // 3. Space key
+        input.addEventListener("keydown", (e) => {
+            if (e.code === "Space") {
+                sendUpdate(i);
+            }
         });
     }
 
+    // 4. Click ANYWHERE on the page
+    document.addEventListener("click", () => {
+        for (const id in inputs) {
+            sendUpdate(id);
+        }
+    });
+
     socket.on("sign_updated", data => {
-        const input = document.getElementById(`sign${data.id}`);
-        if (input !== document.activeElement) {
+        const input = inputs[data.id];
+
+        // Do not overwrite while user is typing in this box
+        if (document.activeElement !== input) {
             input.value = data.value;
         }
     });
 </script>
+
 
 
 </body>
